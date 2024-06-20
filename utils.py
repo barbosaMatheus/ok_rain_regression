@@ -2,6 +2,32 @@ from matplotlib import pyplot as plt
 from scipy import stats
 from scipy.signal import medfilt
 import numpy as np
+from sklearn.cluster import KMeans
+
+def gen_clusters_and_plot(df, x1, x2, n_clusters):
+    d = df.copy()
+    if x2 is None:
+        kmeans = KMeans(n_clusters=n_clusters, n_init="auto")
+        kmeans.fit(d[x1].to_numpy().reshape(-1, 1))
+        d.loc[:,"cluster"] = kmeans.labels_
+        x = list(range(d.shape[0]))
+        plt.scatter(x, d[x1], c=d["cluster"], alpha=0.5)
+        plt.ylabel(x1)
+        plt.xlabel("Sample")
+        plt.title(f"Inertia = {kmeans.inertia_}")
+        plt.show()
+        print(kmeans.cluster_centers_)
+    else:
+        x_cols = [x1, x2]
+        kmeans = KMeans(n_clusters=n_clusters, n_init="auto")
+        kmeans.fit(d[x_cols])
+        d.loc[:,"cluster"] = kmeans.labels_
+        plt.scatter(d[x2], d[x1], c=d["cluster"], alpha=0.5)
+        plt.ylabel(x1)
+        plt.title(f"Inertia = {kmeans.inertia_}") 
+        plt.xlabel(x2)
+        plt.show()
+        print(kmeans.cluster_centers_)
 
 def hist_prob_plots(df, col):
     # function to plot a histogram and a Q-Q plot
