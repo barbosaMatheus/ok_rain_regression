@@ -1,6 +1,7 @@
 Introduction
 ===============
-
+**NOTE:** Open and/or download the .ipynb file to see the project
+\
 PRISM provides precipitation data based on location, as far back as 1981.
 This dataset was generated with the parameters:
 * Location:  Lat: 35.5515   Lon: -97.4072   Elev: 1171ft
